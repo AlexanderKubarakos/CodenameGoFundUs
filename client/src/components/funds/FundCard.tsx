@@ -17,8 +17,7 @@ interface FundCardProps {
   balance?: string;
   isContributor?: boolean;
   contributors?: number;
-  isPublic?: boolean;
-  approvalType?: string;
+  approvalType?: number;
   approvalProgress?: number;
   onWithdraw?: () => void;
   onContribute?: () => void;
@@ -33,8 +32,7 @@ const FundCard = ({
   pendingWithdrawals = 0,
   isContributor = false,
   contributors = 0,
-  isPublic = true,
-  approvalType = "1/2",
+  approvalType = 50,
   approvalProgress = 0,
   onWithdraw = () => console.log("Withdraw clicked"),
   onContribute = () => console.log("Contribute clicked"),
@@ -42,15 +40,10 @@ const FundCard = ({
   onApproveWithdrawal = () => console.log("Approve withdrawal clicked"),
 }: FundCardProps) => {
   return (
-    <Card className="w-[380px] h-[280px] bg-background hover:shadow-lg transition-shadow">
+    <Card className="w-[500px] h-[280px] bg-background hover:shadow-lg transition-shadow">
       <CardHeader className="space-y-1">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold">{name}</h3>
-          {isPublic ? (
-            <Unlock className="h-4 w-4 text-muted-foreground" />
-          ) : (
-            <Lock className="h-4 w-4 text-muted-foreground" />
-          )}
         </div>
         <p className="text-sm text-muted-foreground line-clamp-2">
           {description}
@@ -79,7 +72,7 @@ const FundCard = ({
                 {pendingWithdrawals === 1 ? " withdrawal" : " withdrawals"}
               </Button>
             )}
-            <Badge variant="outline">{approvalType} approval</Badge>
+            <Badge variant="outline"> {approvalType}% approval needed</Badge>
           </div>
         </div>
 

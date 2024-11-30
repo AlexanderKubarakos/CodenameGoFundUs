@@ -24,6 +24,7 @@ const WalletConnect = ({
       // Connect wallet if not connected
       connectors[0] && connect({ connector: connectors[0] }); // You can choose a specific connector
     }
+    onConnect();
   };
 
   const handleDisconnect = () => {

@@ -6,7 +6,7 @@ import FundsList from "./funds/FundsList";
 import WithdrawalModal from "./funds/WithdrawalModal";
 import WithdrawalApprovalModal from "./funds/WithdrawalApprovalModal";
 import { useToast } from "@/components/ui/use-toast";
-import { braavos } from "@starknet-react/core";
+import CreateFundFormData from "./funds/CreateFundModal";
 function Home() {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -14,10 +14,8 @@ function Home() {
   const [isApprovalModalOpen, setIsApprovalModalOpen] = useState(false);
   const [selectedFund, setSelectedFund] = useState(null);
   const [selectedWithdrawal, setSelectedWithdrawal] = useState(null);
+  const [hasNewFunddata, publishNewFundListData] = useState(null);
   const { toast } = useToast();
-  const connectors = [
-    braavos()
-  ];
 
   const handleWithdrawalRequest = (fundId: string) => {
     if (!isWalletConnected) {
@@ -31,6 +29,90 @@ function Home() {
     setSelectedFund(fundId);
     setIsWithdrawModalOpen(true);
   };
+
+  let myFunds = [
+    {
+      id: "1",
+      name: "Community Fund",
+      description: "Supporting local initiatives and projects",
+      balance: "2.5 ETH",
+      contributors: 12,
+      pendingWithdrawals: 2,
+      approvalType: 51,
+      approvalProgress: 30,
+      isOwner: true,
+      isContributor: true,
+    },
+    {
+      id: "2",
+      name: "Tech Startup Fund",
+      description: "Funding innovative blockchain projects",
+      balance: "5.0 ETH",
+      contributors: 8,
+      pendingWithdrawals: 0,
+      approvalType: 75,
+      approvalProgress: 0,
+      isOwner: false,
+      isContributor: false,
+    },
+    {
+      id: "3",
+      name: "Private Investment",
+      description: "Exclusive investment opportunity",
+      balance: "1.2 ETH",
+      contributors: 3,
+      pendingWithdrawals: 1,
+      approvalType: 0,
+      approvalProgress: 60,
+      isOwner: true,
+      isContributor: true,
+    },
+    {
+      id: "4",
+      name: "Private Investment",
+      description: "Exclusive investment opportunity",
+      balance: "1.2 ETH",
+      contributors: 3,
+      pendingWithdrawals: 1,
+      approvalType: 0,
+      approvalProgress: 60,
+      isOwner: true,
+      isContributor: true,
+    },
+    {
+      id: "5",
+      name: "Private Investment",
+      description: "Exclusive investment opportunity",
+      balance: "1.2 ETH",
+      contributors: 3,
+      pendingWithdrawals: 1,
+      approvalType: 0,
+      approvalProgress: 60,
+      isOwner: true,
+      isContributor: true,
+    },
+  ]
+
+  const onSubmit = (data) => {
+    console.log(data);
+    myFunds.push(
+      {
+        id: "6",
+        name: data.name,
+        description: "Exclusive investment opportunity",
+        balance: "1.2 ETH",
+        contributors: 3,
+        pendingWithdrawals: 1,
+        approvalType: 0,
+        approvalProgress: 60,
+        isOwner: true,
+        isContributor: true,
+      }
+    );
+    console.log(myFunds.length)
+    publishNewFundListData(true);
+    publishNewFundListData(false);
+  }
 
   const handleApprovalRequest = (fundId: string) => {
     if (!isWalletConnected) {
@@ -68,7 +150,8 @@ function Home() {
     <div className="w-screen h-screen">
       <Header
         isWalletConnected={isWalletConnected}
-        onWalletConnect={() => {setIsWalletConnected(true)}}
+        onWalletConnect={() => {
+          setIsWalletConnected(true)}}
         onWalletDisconnect={() => setIsWalletConnected(false)}
       />
 
@@ -82,6 +165,7 @@ function Home() {
                   title: "Wallet Connection Required",
                   description: "Please connect your wallet to create a fund.",
                 });
+                console.log("Need wallet!");
                 return;
               }
               setIsCreateModalOpen(true);
@@ -90,6 +174,7 @@ function Home() {
         </div>
 
         <FundsList
+          funds={myFunds}
           onWithdraw={handleWithdrawalRequest}
           onApproveWithdrawal={handleApprovalRequest}
         />
@@ -97,6 +182,7 @@ function Home() {
         <CreateFundModal
           isOpen={isCreateModalOpen}
           onOpenChange={setIsCreateModalOpen}
+          onSubmit={onSubmit}
         />
 
         <WithdrawalModal

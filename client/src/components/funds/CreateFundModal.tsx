@@ -11,7 +11,7 @@ interface CreateFundFormData {
   name: string;
   description: string;
   isPublic: boolean;
-  approvalType: "1/2" | "1/3" | "majority" | "none" | "variable";
+  approvalType: string;
   approvalThreshold?: number;
 }
 
@@ -49,3 +49,4 @@ const CreateFundModal = ({
 };
 
 export default CreateFundModal;
+

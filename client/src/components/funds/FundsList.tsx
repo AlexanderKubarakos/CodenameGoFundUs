@@ -11,8 +11,7 @@ interface Fund {
   description: string;
   balance: string;
   contributors: number;
-  isPublic: boolean;
-  approvalType: string;
+  approvalType: number;
   approvalProgress: number;
   isContributor: boolean;
   isOwner: boolean;
@@ -27,48 +26,8 @@ interface FundsListProps {
   onApproveWithdrawal?: (fundId: string) => void;
 }
 
-const FundsList = ({
-  funds = [
-    {
-      id: "1",
-      name: "Community Fund",
-      description: "Supporting local initiatives and projects",
-      balance: "2.5 ETH",
-      contributors: 12,
-      isPublic: true,
-      pendingWithdrawals: 2,
-      approvalType: "51%",
-      approvalProgress: 30,
-      isOwner: true,
-      isContributor: true,
-    },
-    {
-      id: "2",
-      name: "Tech Startup Fund",
-      description: "Funding innovative blockchain projects",
-      balance: "5.0 ETH",
-      contributors: 8,
-      isPublic: true,
-      pendingWithdrawals: 0,
-      approvalType: "75%",
-      approvalProgress: 0,
-      isOwner: false,
-      isContributor: false,
-    },
-    {
-      id: "3",
-      name: "Private Investment",
-      description: "Exclusive investment opportunity",
-      balance: "1.2 ETH",
-      contributors: 3,
-      isPublic: false,
-      pendingWithdrawals: 1,
-      approvalType: "0%",
-      approvalProgress: 60,
-      isOwner: true,
-      isContributor: true,
-    },
-  ],
+let FundsList = ({
+  funds=[],
   onWithdraw = (fundId) => console.log("Withdraw from fund:", fundId),
   onContribute = (fundId) => console.log("Contribute to fund:", fundId),
   onApproveWithdrawal = (fundId) =>
@@ -79,18 +38,14 @@ const FundsList = ({
     "all",
   );
   const [searchTerm, setSearchTerm] = React.useState("");
-
   const filteredFunds = React.useMemo(() => {
     return funds
-      .filter((fund) => {
-        if (filter === "public") return fund.isPublic;
-        if (filter === "private") return !fund.isPublic;
-        return true;
-      })
       .filter((fund) =>
         fund.name.toLowerCase().includes(searchTerm.toLowerCase()),
       );
   }, [funds, filter, searchTerm]);
+
+  console.log("Getting created ", funds.length);
 
   return (
     <div className="w-full min-h-[800px] bg-background p-6 space-y-6">
@@ -104,32 +59,6 @@ const FundsList = ({
             className="pl-10"
           />
         </div>
-
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-muted-foreground" />
-          <Label>Filter:</Label>
-          <RadioGroup
-            defaultValue="all"
-            value={filter}
-            onValueChange={(value: "all" | "public" | "private") =>
-              setFilter(value)
-            }
-            className="flex gap-4"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="all" id="all" />
-              <Label htmlFor="all">All</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="public" id="public" />
-              <Label htmlFor="public">Public</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="private" id="private" />
-              <Label htmlFor="private">Private</Label>
-            </div>
-          </RadioGroup>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -141,7 +70,6 @@ const FundsList = ({
             balance={fund.balance}
             contributors={fund.contributors}
             pendingWithdrawals={fund.pendingWithdrawals}
-            isPublic={fund.isPublic}
             approvalType={fund.approvalType}
             approvalProgress={fund.approvalProgress}
             isOwner={fund.isOwner}
@@ -151,7 +79,7 @@ const FundsList = ({
             onContribute={() => onContribute(fund.id)}
           />
         ))}
-        n
+        
       </div>
 
       {filteredFunds.length === 0 && (
