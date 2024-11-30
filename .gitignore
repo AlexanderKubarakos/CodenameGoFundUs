@@ -58,4 +58,4 @@ client/.env
 # Server-specific
 server/node_modules/
 server/dist/
-server/.env
+server/.env.env
