@@ -1,7 +1,6 @@
 import fs from 'fs';
 import { RpcProvider, Contract, Account, ec, json } from 'starknet';
 import { provider, myNodeUrl } from './starknet.js'; // Make sure these are correctly exported from 'starknet.js'
-import { useAccount, useContract, useProvider, useContractWrite } from '@starknet-react/core'
 
 // Connect the deployed Test contract in Sepolia Testnet
 const testAddress = '0x02d2a4804f83c34227314dba41d5c2f8a546a500d34e30bb5078fd36b5af2d77';
