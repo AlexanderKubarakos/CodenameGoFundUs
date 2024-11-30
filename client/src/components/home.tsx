@@ -30,7 +30,7 @@ function Home() {
     setIsWithdrawModalOpen(true);
   };
 
-  const [myFunds, setMyFunds] = useState([ // Add this useState hook to manage myFunds state
+  const [myFunds, setMyFunds] = useState([ // Changed this
     {
       id: "1",
       name: "Community Fund",
@@ -89,7 +89,7 @@ function Home() {
         id: "6", // New ID for the new fund
         name: data.name,
         description: "Exclusive investment opportunity",
-        balance: "1.2 ETH",
+        balance: "1.1 ETH",
         contributors: 3,
         pendingWithdrawals: 1,
         approvalType: 0,
