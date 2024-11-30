@@ -30,7 +30,7 @@ function Home() {
     setIsWithdrawModalOpen(true);
   };
 
-  let myFunds = [
+  const [myFunds, setMyFunds] = useState([ // Add this useState hook to manage myFunds state
     {
       id: "1",
       name: "Community Fund",
@@ -79,25 +79,14 @@ function Home() {
       isOwner: true,
       isContributor: true,
     },
-    {
-      id: "5",
-      name: "Private Investment",
-      description: "Exclusive investment opportunity",
-      balance: "1.2 ETH",
-      contributors: 3,
-      pendingWithdrawals: 1,
-      approvalType: 0,
-      approvalProgress: 60,
-      isOwner: true,
-      isContributor: true,
-    },
-  ]
+  ]);
 
   const onSubmit = (data) => {
     console.log(data);
-    myFunds.push(
+    setMyFunds(prevFunds => [
+      ...prevFunds,
       {
-        id: "6",
+        id: "6", // New ID for the new fund
         name: data.name,
         description: "Exclusive investment opportunity",
         balance: "1.2 ETH",
@@ -108,10 +97,7 @@ function Home() {
         isOwner: true,
         isContributor: true,
       }
-    );
-    console.log(myFunds.length)
-    publishNewFundListData(true);
-    publishNewFundListData(false);
+    ]);
   }
 
   const handleApprovalRequest = (fundId: string) => {
