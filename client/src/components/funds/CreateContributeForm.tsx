@@ -6,36 +6,34 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowUpRight } from "lucide-react";
 
-interface WithdrawalFormProps {
+interface CreateContributeFormProps {
   fundName?: string;
-  balance?: string;
-  onSubmit?: (data: WithdrawalFormData) => void;
+  onSubmit?: (data: CreateContributeFormData) => void;
   onCancel?: () => void;
   isLoading?: boolean;
 }
 
-export interface WithdrawalFormData {
+export interface CreateContributeFormData {
   amount: string;
-  reason: string;
-  destinationAddress: string;
+  contributorName: string;
+  message: string;
 }
 
-const WithdrawalForm = ({
+const CreateContributeForm = ({
   fundName = "Example Fund",
-  balance = "0.00 STRK",
-  onSubmit = (data) => console.log("Form submitted:", data),
-  onCancel = () => console.log("Form cancelled"),
+  onSubmit = (data) => console.log("Contribution submitted:", data),
+  onCancel = () => console.log("Contribution cancelled"),
   isLoading = false,
-}: WithdrawalFormProps) => {
+}: CreateContributeFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<WithdrawalFormData>({
+  } = useForm<CreateContributeFormData>({
     defaultValues: {
       amount: "",
-      reason: "",
-      destinationAddress: "",
+      contributorName: "",
+      message: "",
     },
   });
 
@@ -50,43 +48,49 @@ const WithdrawalForm = ({
             <Label>Fund</Label>
             <span className="text-sm text-muted-foreground">{fundName}</span>
           </div>
-          <div className="flex justify-between items-center">
-            <Label>Available Balance</Label>
-            <span className="text-lg font-semibold">{balance}</span>
-          </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="amount">Withdrawal Amount</Label>
+          <Label htmlFor="amount">Contribution Amount</Label>
           <div className="relative">
             <Input
               id="amount"
               type="text"
               placeholder="0.00"
-              {...register("amount")}
+              {...register("amount", { required: "Amount is required" })}
             />
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
               STRK
             </span>
           </div>
+          {errors.amount && (
+            <p className="text-sm text-red-500">{errors.amount.message}</p>
+          )}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="destinationAddress">Destination Address</Label>
+          <Label htmlFor="contributorName">Contributor Name</Label>
           <Input
-            id="destinationAddress"
-            placeholder="0x..."
-            {...register("destinationAddress")}
+            id="contributorName"
+            placeholder="Your name"
+            {...register("contributorName", {
+              required: "Contributor name is required",
+            })}
           />
+          {errors.contributorName && (
+            <p className="text-sm text-red-500">
+              {errors.contributorName.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="reason">Reason for Withdrawal</Label>
+          <Label htmlFor="message">Message</Label>
           <Textarea
-            id="reason"
-            placeholder="Explain the purpose of this withdrawal..."
+            id="message"
+            placeholder="Add an optional message..."
             className="resize-none h-24"
-            {...register("reason")}
+            {...register("message")}
           />
         </div>
       </div>
@@ -106,11 +110,11 @@ const WithdrawalForm = ({
           className="flex items-center gap-2"
         >
           <ArrowUpRight className="h-4 w-4" />
-          {isLoading ? "Requesting..." : "Request Withdrawal"}
+          {isLoading ? "Processing..." : "Contribute"}
         </Button>
       </div>
     </form>
   );
 };
 
-export default WithdrawalForm;
+export default CreateContributeForm;

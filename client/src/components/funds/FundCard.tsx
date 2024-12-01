@@ -28,7 +28,7 @@ interface FundCardProps {
 const FundCard = ({
   name = "Example Fund",
   description = "A sample fund for demonstration purposes",
-  balance = "0.00 ETH",
+  balance = "0.00 STRK",
   pendingWithdrawals = 0,
   isContributor = false,
   contributors = 0,
@@ -98,10 +98,13 @@ const FundCard = ({
             Request Withdrawal
           </Button>
         ) : (
-          <Button className="w-full" onClick={onContribute}>
-            Contribute
-          </Button>
-        )}
+          <Button
+          onClick={onContribute}
+          className="w-full"
+        >
+          Contribute
+        </Button>
+      )}
       </CardFooter>
     </Card>
   );

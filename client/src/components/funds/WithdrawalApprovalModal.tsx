@@ -25,7 +25,7 @@ const WithdrawalApprovalModal = ({
   isOpen = true,
   onOpenChange = () => console.log("Modal state changed"),
   fundName = "Example Fund",
-  requestAmount = "0.00 ETH",
+  requestAmount = "0.00 STRK",
   requesterAddress = "0x1234...5678",
   reason = "No reason provided",
   onApprove = () => console.log("Withdrawal approved"),

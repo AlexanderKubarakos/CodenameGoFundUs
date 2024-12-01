@@ -7,10 +7,13 @@ import WithdrawalModal from "./funds/WithdrawalModal";
 import WithdrawalApprovalModal from "./funds/WithdrawalApprovalModal";
 import { useToast } from "@/components/ui/use-toast";
 import CreateFundFormData from "./funds/CreateFundModal";
+import CreateContributeForm from "./funds/CreateContributeModal";
+import CreateContributeModal from "./funds/CreateContributeModal";
 function Home() {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const [isContributeOpen, setIsContributeOpen] = useState(false);
   const [isApprovalModalOpen, setIsApprovalModalOpen] = useState(false);
   const [selectedFund, setSelectedFund] = useState(null);
   const [selectedWithdrawal, setSelectedWithdrawal] = useState(null);
@@ -29,13 +32,25 @@ function Home() {
     setSelectedFund(fundId);
     setIsWithdrawModalOpen(true);
   };
+  const handleContributeRequest = (fundId: string) => {
+    if (!isWalletConnected) {
+      toast({
+        variant: "destructive",
+        title: "Wallet Connection Required",
+        description: "Please connect your wallet to request withdrawals.",
+      });
+      return;
+    }
+    setSelectedFund(fundId);
+    setIsContributeOpen(true);
+  };
 
   const [myFunds, setMyFunds] = useState([ // Changed this
     {
       id: "1",
       name: "Community Fund",
       description: "Supporting local initiatives and projects",
-      balance: "2.5 ETH",
+      balance: "2.5 STRK",
       contributors: 12,
       pendingWithdrawals: 2,
       approvalType: 51,
@@ -47,7 +62,7 @@ function Home() {
       id: "2",
       name: "Tech Startup Fund",
       description: "Funding innovative blockchain projects",
-      balance: "5.0 ETH",
+      balance: "5.0 STRK",
       contributors: 8,
       pendingWithdrawals: 0,
       approvalType: 75,
@@ -59,7 +74,7 @@ function Home() {
       id: "3",
       name: "Private Investment",
       description: "Exclusive investment opportunity",
-      balance: "1.2 ETH",
+      balance: "1.2 STRK",
       contributors: 3,
       pendingWithdrawals: 1,
       approvalType: 0,
@@ -71,11 +86,11 @@ function Home() {
       id: "4",
       name: "Private Investment",
       description: "Exclusive investment opportunity",
-      balance: "1.2 ETH",
+      balance: "1.2 STRK",
       contributors: 3,
       pendingWithdrawals: 1,
       approvalType: 0,
-      approvalProgress: 60,
+      approvalProgress: 50,
       isOwner: true,
       isContributor: true,
     },
@@ -88,16 +103,17 @@ function Home() {
       {
         id: "6", // New ID for the new fund
         name: data.name,
-        description: "Exclusive investment opportunity",
-        balance: "1.1 ETH",
+        description: data.description,
+        balance: "1.2 STRK",
         contributors: 3,
         pendingWithdrawals: 1,
-        approvalType: 0,
-        approvalProgress: 60,
+        approvalType: data.approvalThreshold,
+        approvalProgress: data.approvalProgress,
         isOwner: true,
         isContributor: true,
       }
     ]);
+    setIsCreateModalOpen(false);
   }
 
   const handleApprovalRequest = (fundId: string) => {
@@ -125,7 +141,7 @@ function Home() {
     setSelectedFund(fundId);
     setSelectedWithdrawal({
       fundName: "Community Fund",
-      requestAmount: "0.5 ETH",
+      requestAmount: "0.5 STRK",
       requesterAddress: "0x1234...5678",
       reason: "Project development expenses",
     });
@@ -162,6 +178,7 @@ function Home() {
         <FundsList
           funds={myFunds}
           onWithdraw={handleWithdrawalRequest}
+          onContribute={handleContributeRequest}
           onApproveWithdrawal={handleApprovalRequest}
         />
 
@@ -175,6 +192,18 @@ function Home() {
           isOpen={isWithdrawModalOpen}
           onOpenChange={setIsWithdrawModalOpen}
         />
+        <CreateContributeModal
+          isOpen={isContributeOpen}
+          onOpenChange={setIsContributeOpen}
+          onSubmit={(data) => {
+          console.log(`Contributing ${data.amount} STRK to ${selectedFund}`);
+          toast({
+            title: "Contribution Successful",
+            description: `You contributed ${data.amount} STRK to the fund.`,
+          });
+      setIsContributeOpen(false); 
+    }}
+/>
 
         {selectedWithdrawal && (
           <WithdrawalApprovalModal
