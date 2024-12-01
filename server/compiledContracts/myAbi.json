@@ -7,17 +7,6 @@
     "state_mutability": "external"
   },
   {
-    "type": "function",
-    "name": "get_last_user",
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "core::starknet::contract_address::ContractAddress"
-      }
-    ],
-    "state_mutability": "view"
-  },
-  {
     "type": "struct",
     "name": "core::integer::u256",
     "members": [
@@ -30,6 +19,181 @@
         "type": "core::integer::u128"
       }
     ]
+  },
+  {
+    "type": "function",
+    "name": "createFund",
+    "inputs": [
+      {
+        "name": "name",
+        "type": "core::felt252"
+      },
+      {
+        "name": "request_percent",
+        "type": "core::integer::u256"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::integer::u32"
+      }
+    ],
+    "state_mutability": "external"
+  },
+  {
+    "type": "function",
+    "name": "setFundName",
+    "inputs": [
+      {
+        "name": "entry",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "name",
+        "type": "core::felt252"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::felt252"
+      }
+    ],
+    "state_mutability": "external"
+  },
+  {
+    "type": "function",
+    "name": "setFundOwner",
+    "inputs": [
+      {
+        "name": "entry",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "owner",
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ],
+    "state_mutability": "external"
+  },
+  {
+    "type": "function",
+    "name": "setFundAmount",
+    "inputs": [
+      {
+        "name": "entry",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "amount",
+        "type": "core::integer::u256"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::integer::u256"
+      }
+    ],
+    "state_mutability": "external"
+  },
+  {
+    "type": "function",
+    "name": "setFundPercent",
+    "inputs": [
+      {
+        "name": "entry",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "request",
+        "type": "core::integer::u256"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::integer::u256"
+      }
+    ],
+    "state_mutability": "external"
+  },
+  {
+    "type": "function",
+    "name": "getFundName",
+    "inputs": [
+      {
+        "name": "entry",
+        "type": "core::integer::u32"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::felt252"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getFundOwner",
+    "inputs": [
+      {
+        "name": "entry",
+        "type": "core::integer::u32"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getFundAmount",
+    "inputs": [
+      {
+        "name": "entry",
+        "type": "core::integer::u32"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::integer::u256"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getFundPercent",
+    "inputs": [
+      {
+        "name": "entry",
+        "type": "core::integer::u32"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::integer::u256"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "get_last_user",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ],
+    "state_mutability": "view"
   },
   {
     "type": "function",
