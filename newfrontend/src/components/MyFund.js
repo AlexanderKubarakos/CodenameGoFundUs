@@ -94,9 +94,9 @@ function YourFund() {
         return result;
     }
     const fetchMockFundDetails = async () => {
-        const value = await contract.functions.getFundName(address);
-        const value2 = await contract.functions.getFundPercent(address);
-        const value3 = await contract.functions.getFundAmount(address);
+        const value = await contract.functions.getFundName(id);
+        const value2 = await contract.functions.getFundPercent(id);
+        const value3 = await contract.functions.getFundAmount(id);
         console.log("value", value, value2, value3)
         return {
             name: asciiHexToString(value.toString(16)),

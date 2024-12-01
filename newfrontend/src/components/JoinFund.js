@@ -76,13 +76,13 @@ function JoinFund() {
     }
 const handleView = async () => {
     if (address && contract) {
-        let value = await contract.functions.getFundName(address);
+        let value = await contract.functions.getFundName(id);
         value = value.toString(16)
         console.log(value)
         const character = asciiHexToString(value);
         setJoining(character);
 
-        const value2 = await contract.functions.getFundAmount(address);
+        const value2 = await contract.functions.getFundAmount(id);
         setFundAmount(value2)
         setAmount(String(value2));
     }
@@ -110,7 +110,7 @@ const pay = async () => {
         try {
             setCalls(contract.populateTransaction['pay'](CONTRACT_ADDRESS, address ,fundAmount * 1000000000000000000n));
             await writeAsync();
-            navigate('/ViewFund/' + address);
+            navigate('/ViewFund/' + id);
         } catch (error) {
             console.error("Error getting value:", error);
         }

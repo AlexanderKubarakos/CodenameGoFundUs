@@ -6,7 +6,7 @@ import Home from './components/Home';
 import NewFund from './components/NewFund';
 import MyFund from './components/MyFund';
 import JoinFund from './components/JoinFund';
-
+import ViewFund from './components/ViewFund';
 function App() {
   const { address } = useAccount();
 
@@ -19,6 +19,7 @@ function App() {
           
           {/* NewFund route */}
           <Route path="/MyFund/:id" element={address ? <MyFund /> : <WalletConnect />} />
+          <Route path="/ViewFund/:id" element={address ? <ViewFund /> : <WalletConnect />} />
 
             {/* NewFund route */}
             <Route path="/JoinFund/:id" element={address ? <JoinFund /> : <WalletConnect />} />
