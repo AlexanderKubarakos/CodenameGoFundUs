@@ -3,7 +3,7 @@ import { RpcProvider, Contract, Account, ec, json } from 'starknet';
 import { provider, myNodeUrl } from './starknet.js'; // Make sure these are correctly exported from 'starknet.js'
 
 // Contract address (ensure this is valid on the network you are using)
-const addrContract = "0x036bec76648da174c4dc57b173338e03009a6a570877939c3d75c30fd26a9631";
+const addrContract = "0x0704e5b3236f53220bd9cdac4856d44d5546715b10d16bbfb276ccb3fc342102";
 
 // Function to test the contract interaction
 // Get the contract class and ABI

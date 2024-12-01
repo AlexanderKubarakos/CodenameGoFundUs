@@ -4,6 +4,17 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Search, Filter } from "lucide-react";
 import FundCard from "./FundCard";
+import { RpcProvider, Contract, Account, ec, json, BigNumberish, cairo, stark, shortString, CallData } from 'starknet';
+
+
+const contract_address = "0x0704e5b3236f53220bd9cdac4856d44d5546715b10d16bbfb276ccb3fc342102";
+const rpc_node_url = "https://starknet-sepolia.public.blastapi.io/rpc/v0_7";
+const provider = new RpcProvider({ nodeUrl: `${rpc_node_url}` });
+
+const [account, setAccount] = React.useState(null);
+const [contract, setContract] = React.useState(null);
+const [abi, setAbi] = React.useState(null);
+
 
 interface Fund {
   id: string;

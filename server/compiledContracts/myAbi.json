@@ -1,5 +1,10 @@
 [
   {
+    "type": "constructor",
+    "name": "constructor",
+    "inputs": []
+  },
+  {
     "type": "function",
     "name": "interact",
     "inputs": [],
@@ -212,8 +217,98 @@
     "state_mutability": "view"
   },
   {
+    "type": "function",
+    "name": "approve",
+    "inputs": [
+      {
+        "name": "spender",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "amount",
+        "type": "core::integer::u256"
+      }
+    ],
+    "outputs": [],
+    "state_mutability": "external"
+  },
+  {
+    "type": "function",
+    "name": "allowance",
+    "inputs": [
+      {
+        "name": "owner",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "spender",
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::integer::u256"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
+    "type": "enum",
+    "name": "core::bool",
+    "variants": [
+      {
+        "name": "False",
+        "type": "()"
+      },
+      {
+        "name": "True",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "pay",
+    "inputs": [
+      {
+        "name": "recipient",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "sender",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "amount",
+        "type": "core::integer::u256"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::bool"
+      }
+    ],
+    "state_mutability": "external"
+  },
+  {
+    "type": "function",
+    "name": "balance",
+    "inputs": [
+      {
+        "name": "wallet",
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "core::integer::u256"
+      }
+    ],
+    "state_mutability": "view"
+  },
+  {
     "type": "event",
-    "name": "simple_storage::WalletInteraction::UserInteraction",
+    "name": "contracts::WalletInteraction::UserInteraction",
     "kind": "struct",
     "members": [
       {
@@ -230,12 +325,12 @@
   },
   {
     "type": "event",
-    "name": "simple_storage::WalletInteraction::Event",
+    "name": "contracts::WalletInteraction::Event",
     "kind": "enum",
     "variants": [
       {
         "name": "UserInteraction",
-        "type": "simple_storage::WalletInteraction::UserInteraction",
+        "type": "contracts::WalletInteraction::UserInteraction",
         "kind": "nested"
       }
     ]
