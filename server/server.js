@@ -1,63 +1,50 @@
-import { Account, RpcProvider } from 'starknet';
-import fs from 'fs';
-const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const cors = require('cors');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import userRoutes from './routes/userRoutes.js';
+import fundRoutes from './routes/fundRoutes.js';
+import requestRoutes from './routes/requestRoutes.js';
 
 dotenv.config();
-
 const app = express();
+app.use(express.json());
+app.use(cors());
 
-// Middleware
-app.use(express.json()); // Parse JSON requests
-app.use(cors()); // Enable CORS
+// Connect to MongoDB with retry logic
+const connectMongoDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+    setTimeout(connectMongoDB, 5000);  // Retry after 5 seconds
+  }
+};
 
-// Connect to MongoDB
-// mongoose
-//   .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(() => console.log('Connected to MongoDB'))
-//   .catch((err) => console.error('Error connecting to MongoDB:', err));
+connectMongoDB();
 
-// Basic Route
-app.get('/', (req, res) => {
-  res.send('Welcome to the MERN Stack Backend!');
+// Use Routes
+app.use('/api/user', userRoutes);
+app.use('/api/fund', fundRoutes);
+app.use('/api/request', requestRoutes);
+
+// Graceful Shutdown Handler
+process.on('SIGINT', () => {
+  console.log("Shutting down the server...");
+  mongoose.connection.close(() => {
+    console.log("MongoDB connection closed.");
+    process.exit(0);
+  });
 });
 
-// app.get('/starknet-version', async (req, res) => {
-//   try {
-//     const version = await provider.getSpecVersion();
-//     res.json({ rpcVersion: version });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch StarkNet RPC version' });
-//   }
-// });
+// Global Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(500).json({ message: "Something went wrong", details: err.message });
+});
 
-// app.post('/send-transaction', async (req, res) => {
-//   try {
-//     const { functionName, args } = req.body;
-
-//     const txHash = await contract.invoke(functionName, args);
-//     res.json({ txHash });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to send transaction', details: error.message });
-//   }
-// });
-
-// app.get('/query-data', async (req, res) => {
-//   try {
-//     const data = await contract.getData(req.query.param1);
-//     res.json({ data });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch contract data', details: error.message });
-//   }
-// });
-
-
-// Start the Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-const exampleRoutes = require('./routes/exampleRoute');
-app.use('/api', exampleRoutes);
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
