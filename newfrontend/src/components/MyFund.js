@@ -25,16 +25,11 @@ function YourFund() {
     });
     const { id } = useParams();
 
-    
+
 
     // Fetch ABI and fund details
     useEffect(() => {
-        if (id && address &&  address !== id) {
-          // If the user is not authorized, set an error state and don't proceed with fetching data
-          setError('You are not authorized to access this page.');
-          setIsLoading(false);
-          return;
-        }
+       
     
         const fetchFundDetails = async () => {
           if (!address) return;
@@ -76,7 +71,6 @@ function YourFund() {
     const fetchMockFundDetails = async (userAddress) => ({
         name: "Community Development Fund",
         balance: 5420.50,
-        totalContributions: 10000,
         createdAt: new Date('2024-01-15'),
         owner: userAddress
     });
@@ -98,12 +92,6 @@ function YourFund() {
                                 ${fundDetails.balance.toLocaleString()}
                             </p>
                         </div>
-                        <div>
-                            <p className="text-gray-600">Total Contributions</p>
-                            <p className="text-xl">
-                                ${fundDetails.totalContributions.toLocaleString()}
-                            </p>
-                        </div>
                     </div>
                 </div>
 
@@ -111,7 +99,7 @@ function YourFund() {
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold mb-4">Invite Contributors</h2>
                     <a 
-                        href={`https://link.com/fund/${fundDetails.name}`}
+                        href={`http://localhost:3000/joinfund/${address}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-500 hover:text-blue-600"

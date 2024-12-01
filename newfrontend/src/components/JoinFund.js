@@ -96,7 +96,7 @@ const allowance = async () => {
     if (contract2 && address) {
         try {
             console.log("Running allowance function...");
-            setCalls(contract2.populateTransaction['approve'](CONTRACT_ADDRESS, fundAmount));
+            setCalls(contract2.populateTransaction['approve'](address, CONTRACT_ADDRESS, fundAmount));
             await writeAsync();
             console.log("Fund allowed successfully!");
 
