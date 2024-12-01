@@ -6,7 +6,7 @@ import {useParams} from 'react-router-dom';
 import {useNavigate} from 'react-router';
 
 
-const CONTRACT_ADDRESS = "0x069bbb7cf691a3e1b40a94e4f10156672f21761637e849f6be72c7b3f355608a";
+const CONTRACT_ADDRESS = "0x03bd19c59181bbba12ee4bef2dcc5938b2fdbe53a2159fbd92dfb6afe0464df0    ";
 const STRK = "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d"
 function JoinFund() {
     const { address } = useAccount();
