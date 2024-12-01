@@ -40,7 +40,7 @@ function NewFund() {
             if (contract) {
                 const check = await contract.functions.getFundName(address);
                 console.log(check);
-                if (check !== 0) {
+                if (check != 0n) {
                     navigate('/ViewFund/' + address);
                 }
             }
