@@ -41,8 +41,7 @@ function YourFund() {
             setAbi(classInfo.abi);
     
             // Fetch fund details (mock implementation)
-            const details = await fetchMockFundDetails(address);
-            setFundDetails(details);
+           
           } catch (err) {
             setError(err.message);
           } finally {
@@ -52,6 +51,15 @@ function YourFund() {
     
         fetchFundDetails();
       }, [address, id]);
+
+      useEffect(() => {
+        if(!contract || !address) return;
+        const fetchFundDetails = async () => {
+            const details = await fetchMockFundDetails();
+            setFundDetails(details);
+        }
+        fetchFundDetails();
+      }, [contract, address]);
 
     // Withdrawal request handler
     const handleRequestWithdrawal = async () => {
@@ -68,12 +76,35 @@ function YourFund() {
     };
 
     // Mock data fetching functions (replace with actual contract calls)
-    const fetchMockFundDetails = async (userAddress) => ({
-        name: "Community Development Fund",
-        balance: 5420.50,
-        createdAt: new Date('2024-01-15'),
-        owner: userAddress
-    });
+   function asciiHexToString(hexString) {
+        // Ensure the hex string length is even (each character is 2 hex digits)
+        if (hexString.length % 2 !== 0) {
+            throw new Error("Hex string length must be even.");
+        }
+    
+        let result = "";
+        for (let i = 0; i < hexString.length; i += 2) {
+            // Take each pair of hex digits
+            const hexPair = hexString.slice(i, i + 2);
+            // Convert the hex pair to a decimal number
+            const decimalValue = parseInt(hexPair, 16);
+            // Convert the decimal to its ASCII character
+            result += String.fromCharCode(decimalValue);
+        }
+        return result;
+    }
+    const fetchMockFundDetails = async () => {
+        const value = await contract.functions.getFundName(address);
+        const value2 = await contract.functions.getFundPercent(address);
+        const value3 = await contract.functions.getFundAmount(address);
+        console.log("value", value, value2, value3)
+        return {
+            name: asciiHexToString(value.toString(16)),
+            balance: value3,
+            amount: value2
+        }
+    }
+
 
     if (isLoading) return <div className="text-center p-4">Loading fund details...</div>;
     if (error) return <div className="text-red-500 p-4">Error: {error}</div>;
@@ -81,7 +112,7 @@ function YourFund() {
 
     return (
         <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-            <div className="bg-white shadow-md rounded-lg p-6">
+           { fundDetails && <div className="bg-white shadow-md rounded-lg p-6">
                 {/* Fund Overview */}
                 <div className="mb-6">
                     <h1 className="text-3xl font-bold mb-4">{fundDetails.name}</h1>
@@ -135,7 +166,7 @@ function YourFund() {
                         </button>
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     );
 }
